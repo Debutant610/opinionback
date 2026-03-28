@@ -4,15 +4,17 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import { ArrowLeft, Loader2, Mail, Lock, CheckCircle2, AlertCircle, Eye, EyeOff } from "lucide-react"
 import { toast } from "sonner"
 
 export default function LoginPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -30,9 +32,13 @@ export default function LoginPage() {
       })
 
       if (result?.error) {
-        toast.error("Identifiants invalides ou erreur de serveur.")
+        toast.error("Identifiants invalides ou erreur de serveur.", {
+          icon: <AlertCircle className="w-4 h-4 text-red-500" />
+        })
       } else {
-        toast.success("Connexion réussie !")
+        toast.success("Heureux de vous revoir !", {
+          icon: <CheckCircle2 className="w-4 h-4 text-green-500" />
+        })
         router.push("/dashboard")
         router.refresh()
       }
@@ -44,48 +50,129 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-background relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+    <div className="flex flex-col min-h-screen items-center justify-center bg-[#020617] relative overflow-hidden selection:bg-primary/30 selection:text-white">
+      {/* Dynamic Background Elements */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/10 blur-[160px] rounded-full animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-600/10 blur-[160px] rounded-full animate-pulse delay-700 pointer-events-none" />
       
-      <div className="absolute top-8 left-8 z-10">
-        <Button variant="ghost" asChild className="text-muted-foreground hover:text-foreground transition-colors group">
+      {/* Floating Particles Simulation */}
+      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" 
+           style={{ backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="absolute top-8 left-8 z-20"
+      >
+        <Button variant="ghost" asChild className="text-muted-foreground hover:text-white hover:bg-white/5 transition-all group rounded-full px-6">
           <Link href="/"><ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform"/> Retour</Link>
         </Button>
-      </div>
+      </motion.div>
 
-      <div className="w-full max-w-md p-8 rounded-[2rem] bg-card/80 border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] relative z-10 backdrop-blur-2xl animate-fade-in-up">
-        <div className="text-center mb-10">
-          <img src="/logo.png" alt="Logo" className="h-16 w-auto mx-auto mb-6 drop-shadow-2xl" />
-          <h1 className="font-outfit text-3xl font-bold tracking-tight mb-2">Bon retour</h1>
-          <p className="text-sm text-muted-foreground">Accédez à votre espace de trading propriétaire.</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="email">Adresse e-mail</Label>
-            <Input id="email" name="email" type="email" placeholder="nom@exemple.com" required className="bg-background/50 h-11" />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Mot de passe</Label>
-              <Link href="#" className="text-xs font-medium text-primary hover:text-primary/80 hover:underline transition-colors">Oublié ?</Link>
-            </div>
-            <Input id="password" name="password" type="password" required className="bg-background/50 h-11" />
-          </div>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.98, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="w-full max-w-md mx-auto relative z-10 px-4"
+      >
+        <div className="p-8 md:p-10 rounded-[2.5rem] bg-[#0f172a]/40 border border-white/10 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)] backdrop-blur-3xl relative overflow-hidden">
+          {/* Subtle line decoration */}
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
           
-          <Button type="submit" disabled={loading} className="w-full mt-8 shadow-lg shadow-primary/20 rounded-xl h-12 text-base font-medium transition-all hover:shadow-primary/40 hover:scale-[1.02]">
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            Se connecter
-          </Button>
-        </form>
+          <div className="text-center mb-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="relative isolate"
+            >
+              <div className="absolute inset-0 bg-primary/20 blur-[30px] rounded-full scale-50 -z-10 mx-auto" style={{ width: '80px', height: '80px' }} />
+              <img 
+                src="/logo.png" 
+                alt="Logo" 
+                className="h-20 w-auto mx-auto mb-4 invert contrast-[1000%] mix-blend-screen brightness-125" 
+              />
+              <h1 className="font-outfit text-4xl font-extrabold tracking-tighter text-white mb-2">Connexion</h1>
+              <p className="text-sm text-slate-400 font-medium font-outfit uppercase tracking-widest opacity-60">L'excellence du trading propriétaire.</p>
+            </motion.div>
+          </div>
 
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          Pas encore de compte ?{" "}
-          <Link href="/register" className="text-primary hover:underline font-medium hover:text-primary/80 transition-colors">Créer un compte</Link>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-slate-400 ml-1 text-xs font-bold uppercase tracking-widest opacity-60">Email professionnel</Label>
+              <div className="relative group">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-primary transition-colors" />
+                <Input 
+                  id="email" 
+                  name="email" 
+                  type="email" 
+                  placeholder="votre@email.com" 
+                  required 
+                  className="bg-black/60 border-white/5 h-13 pl-12 rounded-2xl hover:bg-black/80 focus:bg-black/80 focus:border-primary/40 transition-all text-white placeholder:text-slate-700 focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between px-1">
+                <Label htmlFor="password" className="text-slate-400 text-xs font-bold uppercase tracking-widest opacity-60">Mot de passe</Label>
+                <Link href="/forgot-password" className="text-xs font-semibold text-primary hover:text-primary/80 transition-all">Oublié ?</Link>
+              </div>
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-primary transition-colors" />
+                <Input 
+                  id="password" 
+                  name="password" 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••"
+                  required 
+                  className="bg-black/60 border-white/5 h-13 pl-12 pr-12 rounded-2xl hover:bg-black/80 focus:bg-black/80 focus:border-primary/40 transition-all text-white placeholder:text-slate-700 focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <Button 
+                type="submit" 
+                disabled={loading} 
+                className="w-full mt-4 shadow-[0_8px_20px_rgba(var(--primary),0.2)] rounded-2xl h-14 text-lg font-bold transition-all hover:shadow-[0_12px_24px_rgba(var(--primary),0.35)] hover:-translate-y-0.5 active:scale-95"
+              >
+                {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "Se connecter"}
+              </Button>
+            </motion.div>
+          </form>
+
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-10 text-center text-sm"
+          >
+            <span className="text-slate-400">Pas encore parmi l'élite ?</span>{" "}
+            <Link href="/register" className="text-white hover:text-primary font-bold transition-all underline-offset-4 hover:underline">
+              Rejoindre OPINBACK
+            </Link>
+          </motion.div>
         </div>
-      </div>
+        
+        {/* Decorative elements below the card */}
+        <div className="mt-8 flex justify-center gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+          <div className="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+            <CheckCircle2 className="w-3 h-3 text-primary" /> Sécurité SSL
+          </div>
+          <div className="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+            <CheckCircle2 className="w-3 h-3 text-primary" /> Données Chiffrées
+          </div>
+        </div>
+      </motion.div>
     </div>
   )
 }

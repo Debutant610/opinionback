@@ -27,7 +27,7 @@ export default async function DashboardLayout({
       <aside className="fixed left-0 top-0 hidden lg:flex h-screen w-72 flex-col border-r border-border/50 bg-card/50 backdrop-blur-xl z-50">
         <div className="p-8 border-b border-border/40 flex flex-col items-center gap-4">
           <Link href="/dashboard" className="flex flex-col items-center gap-3 group">
-            <img src="/logo.png" alt="Logo" className="h-12 w-auto group-hover:scale-110 transition-transform duration-300 drop-shadow-lg" />
+            <img src="/logo.png" alt="Logo" className="h-12 w-auto group-hover:scale-110 transition-transform duration-300 drop-shadow-lg brightness-150 invert mix-blend-screen" />
             <span className="font-outfit font-extrabold text-xl tracking-tighter text-foreground">OPINBACK</span>
           </Link>
         </div>

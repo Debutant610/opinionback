@@ -14,7 +14,7 @@ export default function Home() {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-3 group">
-              <img src="/logo.png" alt="OPINBACK Logo" className="h-10 w-auto group-hover:scale-105 transition-transform duration-300" />
+              <img src="/logo.png" alt="Logo" className="h-10 w-auto group-hover:scale-105 transition-transform duration-300 brightness-150 invert mix-blend-screen" />
               <span className="font-outfit font-extrabold text-2xl tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">OPINBACK</span>
             </Link>
           </div>
