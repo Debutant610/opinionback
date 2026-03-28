@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  role          Role      @default(TRADER)
+  status        UserStatus @default(PENDING)
+  banReason     String?   // Raison de la sanction (ex: "Utilisation de robot")
+  suspendedUntil DateTime? // Fin de suspension temporaire
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  profile       Profile?
+  accounts      Account[]
+  withdrawals   Withdrawal[]
+}
+
+enum Role {
+  ADMIN
+  TRADER
+}
+
+enum UserStatus {
+  PENDING   // Inscrit mais profil incomplet
+  DEMO      // Phase d'évaluation
+  FUNDED    // Trader financé
+  REJECTED  // Évaluation échouée
+  SUSPENDED // Suspension temporaire
+  BANNED    // Banni définitivement
+}
+
+model Profile {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id])
+  firstName     String
+  lastName      String
+  country       String?
+  paymentMethod String?   // IBAN, PayPal, etc (chiffré idéalement)
+}
+
+model Account {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  type          AccountType
+  balance       Float     @default(0.0)
+  maxDrawdown   Float     @default(0.0)
+  profitTarget  Float     @default(0.0)
+  status        AccountStatus @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  trades        Trade[]
+}
+
+enum AccountType {
+  DEMO
+  FUNDED
+}
+
+enum AccountStatus {
+  ACTIVE
+  CLOSED
+  LIQUIDATED // En cas de dépassement de drawdown
+}
+
+model Trade {
+  id            String    @id @default(cuid())
+  accountId     String
+  account       Account   @relation(fields: [accountId], references: [id])
+  asset         String
+  entryPrice    Float
+  exitPrice     Float?
+  profitLoss    Float?
+  status        TradeStatus @default(OPEN)
+  openedAt      DateTime  @default(now())
+  closedAt      DateTime?
+}
+
+enum TradeStatus {
+  OPEN
+  CLOSED
+}
+
+model Withdrawal {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  amount        Float
+  status        WithdrawalStatus @default(PENDING)
+  requestedAt   DateTime  @default(now())
+  processedAt   DateTime?
+}
+
+enum WithdrawalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Invitation {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  token         String    @unique
+  expiresAt     DateTime  
+  isUsed        Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+}
+model Settings {
+  id              String   @id @default("global")
+  brokerApiKey    String?
+  brokerPassword  String?
+  brokerUrl       String?
+  updatedAt       DateTime @updatedAt
+}
