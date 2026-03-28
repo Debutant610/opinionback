@@ -31,13 +31,12 @@ export default async function DashboardLayout({
             <span className="font-outfit font-extrabold text-xl tracking-tighter text-foreground">OPINBACK</span>
           </Link>
         </div>
-          <div className="flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50">
+          <div className="flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 mx-4 mt-4">
             {isAdmin ? <ShieldAlert className="w-3 h-3 text-primary" /> : <LayoutDashboard className="w-3 h-3 text-blue-500" />}
             <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">
               {isAdmin ? "Espace Admin" : "Espace Trader"}
             </span>
           </div>
-        </div>
         
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
           <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3.5 rounded-xl bg-primary/10 text-primary text-sm font-medium transition-colors shadow-sm">
