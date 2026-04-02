@@ -11,6 +11,7 @@ echo 2. Sauvegarde des nouvelles fonctionnalites...
 git commit -m "feat: lancement production avec base de donnees reelle et api binance"
 echo.
 echo 3. Envoi vers GitHub et Vercel...
+git commit --allow-empty -m "fix: force Vercel redeployment to 15.3.3"
 git push origin main -f
 echo.
 echo ========================================================
