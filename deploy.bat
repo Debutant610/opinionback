@@ -1,22 +1,23 @@
 @echo off
 echo.
 echo ========================================================
-echo        OPINBACK - DEPLOIEMENT VERS VERCEL (PRODUCTION)
+echo        OPINBACK - DEPLOIEMENT FINAL (PRODUCTION)
 echo ========================================================
 echo.
-echo 1. Verification des fichiers ajoutes...
+echo 1. Suppression du fichier lock corrompu...
+del package-lock.json
+echo.
+echo 2. Reinstallation des dépendances propre...
+call npm install
+echo.
+echo 3. Sauvegarde de tout...
 git add .
+git commit -m "fix: update to Next.js 15.3.3 secure version with fresh lockfile"
 echo.
-echo 2. Sauvegarde des nouvelles fonctionnalites...
-git commit -m "feat: lancement production avec base de donnees reelle et api binance"
-echo.
-echo 3. Envoi vers GitHub et Vercel...
-git commit --allow-empty -m "fix: force Vercel redeployment to 15.3.3"
-git push origin main -f
+echo 4. Envoi vers GitHub et Vercel...
+git push origin main
 echo.
 echo ========================================================
-echo SUCCES ! Vercel est en train de compiler le site.
-echo Le site sera en ligne avec la vraie base de donnees
-echo d'ici 1 minute.
+echo SUCCES ! Vercel compile le site en version securisee.
 echo ========================================================
 pause
