@@ -116,6 +116,7 @@ model Invitation {
   isUsed        Boolean   @default(false)
   createdAt     DateTime  @default(now())
 }
+
 model Settings {
   id              String   @id @default("global")
   brokerApiKey    String?

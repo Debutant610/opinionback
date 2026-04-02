@@ -134,11 +134,24 @@ export default function RegisterPage() {
               </div>
             </motion.div>
             
-            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
-              <Button type="submit" disabled={loading} className="w-full mt-6 shadow-[0_12px_24px_rgba(var(--primary),0.2)] rounded-2xl h-14 text-lg font-bold transition-all hover:shadow-[0_16px_32px_rgba(var(--primary),0.35)] hover:-translate-y-1">
-                {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "Créer mon dossier de trader"}
-              </Button>
-            </motion.div>
+            <div className="pt-2 mt-2">
+              <button 
+                type="submit" 
+                disabled={loading}
+                className="relative w-full h-14 rounded-2xl text-base font-bold tracking-wide overflow-hidden group disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-500 to-blue-600 transition-all duration-300 group-hover:from-purple-600 group-hover:via-indigo-500 group-hover:to-blue-500" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-purple-400/20 to-blue-600/20 blur-xl" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full" />
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-indigo-400/30 group-hover:ring-indigo-300/50 transition-all" />
+                <span className="relative z-10 flex items-center justify-center gap-2 text-white">
+                  {loading 
+                    ? <><Loader2 className="h-5 w-5 animate-spin" /><span>Création en cours...</span></>
+                    : <><span>Créer mon dossier de trader</span><span className="opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span></>
+                  }
+                </span>
+              </button>
+            </div>
           </form>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="mt-10 text-center text-sm">

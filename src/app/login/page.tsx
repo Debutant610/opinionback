@@ -137,18 +137,29 @@ export default function LoginPage() {
               </div>
             </div>
             
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <Button 
+            <div className="pt-2">
+              <button 
                 type="submit" 
                 disabled={loading} 
-                className="w-full mt-4 shadow-[0_8px_20px_rgba(var(--primary),0.2)] rounded-2xl h-14 text-lg font-bold transition-all hover:shadow-[0_12px_24px_rgba(var(--primary),0.35)] hover:-translate-y-0.5 active:scale-95"
+                className="relative w-full h-14 rounded-2xl text-base font-bold tracking-wide overflow-hidden group disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "Se connecter"}
-              </Button>
-            </motion.div>
+                {/* Gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 transition-all duration-300 group-hover:from-blue-500 group-hover:via-indigo-500 group-hover:to-purple-600" />
+                {/* Glow effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-blue-400/20 to-purple-600/20 blur-xl" />
+                {/* Shimmer */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full" />
+                {/* Border glow */}
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-blue-400/30 group-hover:ring-blue-300/50 transition-all" />
+                {/* Content */}
+                <span className="relative z-10 flex items-center justify-center gap-2 text-white">
+                  {loading 
+                    ? <><Loader2 className="h-5 w-5 animate-spin" /><span>Connexion...</span></>
+                    : <><span>Se connecter</span><span className="opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span></>
+                  }
+                </span>
+              </button>
+            </div>
           </form>
 
           <motion.div 

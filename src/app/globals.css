@@ -43,6 +43,12 @@
       transform: translateY(0);
     }
   }
+
+  --animate-draw-chart: drawChart 20s linear infinite;
+  @keyframes drawChart {
+    from { stroke-dashoffset: 2000; }
+    to { stroke-dashoffset: 0; }
+  }
 }
 
 @layer base {

@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { redirect } from "next/navigation"
 import { PerformanceChart } from "@/components/performance-chart"
+import { MarketOverview } from "@/components/market-overview"
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -10,7 +11,8 @@ import {
   Target, 
   Zap,
   ArrowUpRight,
-  History
+  History,
+  Activity
 } from "lucide-react"
 import Link from "next/link"
 
@@ -50,12 +52,20 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col justify-between items-start gap-4">
         <div>
           <h1 className="text-3xl font-outfit font-bold tracking-tight">
             Bonjour, {user?.profile?.firstName || "Trader"} 👋
           </h1>
-          <p className="text-muted-foreground mt-1">Voici un aperçu de vos performances actuelles.</p>
+          <p className="text-muted-foreground mt-1">L'excellence du prop trading. Vos métriques en temps réel.</p>
+        </div>
+        
+        <div className="w-full">
+           <div className="flex items-center gap-2 mb-2 mt-4">
+             <Activity className="w-4 h-4 text-primary" />
+             <h3 className="font-bold uppercase tracking-wider text-muted-foreground text-xs">Aperçu du Marché en Direct</h3>
+           </div>
+           <MarketOverview />
         </div>
       </div>
 
