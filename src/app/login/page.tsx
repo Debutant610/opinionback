@@ -32,7 +32,7 @@ export default function LoginPage() {
       })
 
       if (result?.error) {
-        toast.error("Identifiants invalides ou erreur de serveur.", {
+        toast.error("Erreur: " + result.error, {
           icon: <AlertCircle className="w-4 h-4 text-red-500" />
         })
       } else {
